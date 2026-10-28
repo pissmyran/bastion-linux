@@ -282,7 +282,7 @@ mod tests {
     /// det inte. Därför letas det efter den och inte efter felord.
     #[test]
     fn authentication_is_detected_by_the_success_line() {
-        assert!(is_authenticated("github.com\n  ✓ Logged in to github.com account blixten85"));
+        assert!(is_authenticated("github.com\n  ✓ Logged in to github.com account example-user"));
         assert!(!is_authenticated("You are not logged into any GitHub hosts."));
         assert!(!is_authenticated("gh: command not found"));
         assert!(!is_authenticated(""));
