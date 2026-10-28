@@ -1,27 +1,36 @@
 [project]
-site_name = "Bastion"
-site_url = "https://docs.bastion.denied.se"
-site_description = "Dokumentation för Bastion – multiplattforms SSH-klient från Avkroken."
-site_author = "Avkroken"
-repo_url = "https://github.com/Avkroken/Bastion"
+site_name = "Bastion för Linux"
+site_url = "https://pissmyran.github.io/bastion_linux/"
+site_description = "SSH-klienten för Linux-skrivbordet, skriven i Rust med GTK 4 och libadwaita."
+repo_url = "https://github.com/pissmyran/bastion_linux"
+repo_name = "pissmyran/bastion_linux"
 edit_uri = "edit/main/docs/"
 docs_dir = "docs"
 site_dir = "site"
-copyright = "Avkroken"
+copyright = "Bastion – Apache-2.0"
 nav = [
-  { "Översikt" = "index.md" },
-  { "Projektkontext" = "project-context.md" },
-  { "Arkitektur" = "architecture.md" },
-  { "Drift och verifiering" = "operations.md" },
-  { "Release och versionering" = "release-standard.md" },
+  { "Start" = "index.md" },
+  { "Kom igång" = "kom-igang.md" },
+  { "Arkitektur" = "arkitektur.md" },
+  { "Drift och verifiering" = "drift.md" },
+  { "Synkformat" = "synkformat.md" },
+  { "Release" = "release.md" },
+  { "RSA-nycklar" = "rsa-inaktiverat.md" },
 ]
 extra_css = [
   "stylesheets/extra.css",
 ]
 
+[project.extra]
+platform = "Linux med GTK 4"
+tagline = "SSH-klienten för Linux-skrivbordet, skriven i Rust med GTK 4 och libadwaita."
+
 [project.theme]
 variant = "modern"
 language = "sv"
+custom_dir = "overrides"
+logo = "assets/bastion.svg"
+favicon = "assets/bastion.svg"
 features = [
   "navigation.instant",
   "navigation.instant.prefetch",
@@ -32,6 +41,7 @@ features = [
   "navigation.sections",
   "navigation.path",
   "navigation.top",
+  "navigation.footer",
   "toc.follow",
   "search.highlight",
   "content.action.edit",

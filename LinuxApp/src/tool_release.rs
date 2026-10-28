@@ -157,7 +157,7 @@ mod tests {
     /// påhittad fixtur hade bevisat att koden läser sitt eget antagande.
     fn real_index() -> String {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../Tests/fixtures/tailscale-stable-index.json");
+            .join("tests/fixtures/tailscale-stable-index.json");
         std::fs::read_to_string(&path)
             .unwrap_or_else(|e| panic!("kunde inte läsa {}: {e}", path.display()))
     }

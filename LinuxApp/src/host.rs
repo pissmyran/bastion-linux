@@ -839,7 +839,7 @@ mod tests {
     #[test]
     fn the_shared_wire_format_fixture_decodes_to_the_expected_host() {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../Tests/fixtures/host-wire-format.json");
+            .join("tests/fixtures/host-wire-format.json");
         let text = std::fs::read_to_string(&path)
             .unwrap_or_else(|e| panic!("kunde inte läsa {}: {e}", path.display()));
         let host: Host = serde_json::from_str(&text).expect("fixturen ska gå att avkoda");
@@ -907,7 +907,7 @@ mod tests {
     #[test]
     fn the_shared_sync_state_fixture_decodes_to_the_expected_state() {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../Tests/fixtures/sync-state-wire-format.json");
+            .join("tests/fixtures/sync-state-wire-format.json");
         let text = std::fs::read_to_string(&path)
             .unwrap_or_else(|e| panic!("kunde inte läsa {}: {e}", path.display()));
         let state: SyncState = serde_json::from_str(&text).expect("fixturen ska gå att avkoda");

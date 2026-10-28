@@ -66,7 +66,7 @@ pub fn exec_shell_command(reference: &str) -> Result<String, String> {
 ///
 /// Den regeln är gjord för containernamn och id:n, och avvisar `/` och
 /// `:` — alltså precis de tecken som varje namnrymdad image innehåller
-/// (`ghcr.io/blixten85/bastion:1.0`). Hade den återanvänts här vore
+/// (`ghcr.io/example/bastion:1.0`). Hade den återanvänts här vore
 /// följden att allt utom de kortaste officiella imagenamnen avvisades.
 ///
 /// Tillåtna tecken är de som faktiskt förekommer i en referens: alnum,
@@ -445,7 +445,7 @@ mod tests {
             "nginx",
             "nginx:1.27",
             "linuxserver/plex:latest",
-            "ghcr.io/blixten85/bastion:1.0",
+            "ghcr.io/example/bastion:1.0",
             "registry.example.se:5000/team/app:2026-08-18",
             "busybox@sha256:abc123",
         ] {
