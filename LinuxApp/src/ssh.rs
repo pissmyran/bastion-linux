@@ -778,10 +778,10 @@ async fn run(
     Ok(())
 }
 
-/// Sida som förklarar varför RSA är avstängt. Visas som klickbar länk i
-/// dialogen (`main.rs`) och i klartext i terminalens felrad.
+/// Page that explains why RSA is disabled. Shown as a clickable link in
+/// the dialog (`main.rs`) and as plain text in the terminal's error line.
 pub const RSA_DISABLED_DOC_URL: &str =
-    "https://github.com/pissmyran/bastion_linux/blob/main/docs/rsa-inaktiverat.md";
+    "https://github.com/pissmyran/bastion_linux/blob/main/docs/rsa-disabled.md";
 
 /// Inledningen på felmeddelandet. `main.rs` känner igen felet på den här
 /// strängen och byter ut terminalraden mot en dialog med klickbar länk.

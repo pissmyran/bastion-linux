@@ -2,11 +2,11 @@
 
 @AGENTS.md
 
-Vägledning för Claude Code i `pissmyran/bastion_linux`: Bastion för Linux, SSH-klienten för Linux med GTK 4, byggd med Rust, GTK 4, libadwaita, VTE och russh. De andra plattformarna har egna repon: [Bastion för Apple](https://github.com/pissmyran/bastion_apple), [Bastion för Windows](https://github.com/pissmyran/bastion_windows), [Bastion för Android](https://github.com/pissmyran/bastion_android).
+Guidance for Claude Code in `pissmyran/bastion_linux`: Bastion for Linux, the SSH client for Linux with GTK 4, built with Rust, GTK 4, libadwaita, VTE and russh. The other platforms have their own repos: [Bastion for Apple](https://github.com/pissmyran/bastion_apple), [Bastion for Windows](https://github.com/pissmyran/bastion_windows), [Bastion for Android](https://github.com/pissmyran/bastion_android).
 
-De gemensamma reglerna för alla repon finns i [STYRNING.md](https://github.com/pissmyran/.github/blob/main/STYRNING.md) i `pissmyran/.github`. Kärnreglerna nedan är en ordagrann kopia. Jämför versionen i markeringen med källan i början av varje session (`curl -sS https://raw.githubusercontent.com/pissmyran/.github/main/STYRNING.md`); är kopian äldre, uppdatera den först i en egen PR (`docs: sync core rules from .github`).
+The shared rules for all repos live in [STYRNING.md](https://github.com/pissmyran/.github/blob/main/STYRNING.md) in `pissmyran/.github`. The core rules below are a verbatim copy and stay in Swedish, because the copy is compared character by character with the source. Compare the version in the marker with the source at the start of every session (`curl -sS https://raw.githubusercontent.com/pissmyran/.github/main/STYRNING.md`); if the copy is older, update it first in a separate PR (`docs: sync core rules from .github`).
 
-## Kärnregler
+## Core rules
 
 <!-- kärnregler:start version=2026-10-28 källa=https://github.com/pissmyran/.github/blob/main/STYRNING.md -->
 1. **Inga personliga värden.** Repot är publikt. Skriv aldrig in riktiga id:n, domäner, e-postadresser, namn, nycklar, betallänkar eller kontouppgifter i kod, konfiguration, tester, dokumentation eller commit-meddelanden. Använd platshållare och `example.com`-värden.
@@ -26,55 +26,56 @@ De gemensamma reglerna för alla repon finns i [STYRNING.md](https://github.com/
 15. **GitHub bara via REST.** `gh pr` och `gh issue` fungerar inte i molnsessioner (GraphQL är avstängt). Använd `gh api` och de särskilda `ccr`-vägarna; se avsnittet GitHub från sessionen.
 <!-- kärnregler:slut -->
 
-## Kommandon
+## Commands
 
-Installera byggberoenden (Debian och Ubuntu):
+Install build dependencies (Debian and Ubuntu):
 
 ```bash
 sudo apt install --no-install-recommends build-essential pkg-config libgtk-4-dev libadwaita-1-dev libvte-2.91-gtk4-dev libgtksourceview-5-dev openssh-client
 ```
 
-Testa:
+Test:
 
 ```bash
 cd LinuxApp && cargo test --workspace
 ```
 
-Kör appen:
+Run the app:
 
 ```bash
 cd LinuxApp && cargo run
 ```
 
-`openssh-client` behövs för att testerna av nyckelimport kör `ssh-keygen`. RPM-paketet byggs med `LinuxApp/packaging/build-rpm.sh`.
+`openssh-client` is needed because the key import tests run `ssh-keygen`. The RPM package is built with `LinuxApp/packaging/build-rpm.sh`.
 
-## Regler för det här repot
+## Rules for this repo
 
-- **Synkformatet ägs av Bastion för Apple.** Fixturerna i `LinuxApp/tests/fixtures/` är kopior; följ `docs/synkformat.md` när formatet ändras.
-- **RSA förblir avstängt** i russh tills RUSTSEC-2023-0071 har en rättad version.
-- **Byggberoenden:** GTK-paketen i Kommandon måste finnas för att `cargo test` ska kompilera.
-- **Dokumentationen** är en Zensical-sajt: `docs/`, `zensical.toml` och startsidans mall i `overrides/home.html`. Bygg den lokalt med `pip install --upgrade zensical` och `zensical build --strict`. Nya sidor läggs in i `nav` i `zensical.toml`.
-- **Releasen** styrs av PR-titlarna och kontrollerna i `.github/release-required-checks`; se `docs/release.md`.
+- **Language:** everything in this repo is English: code, comments, docstrings, documentation, PR titles and bodies, commit messages, review replies and labels. Only the core rules block above stays in Swedish. Older code still has Swedish comments and UI text; write every new or changed comment and string in English.
+- **The sync format is owned by Bastion for Apple.** The fixtures in `LinuxApp/tests/fixtures/` are copies; follow `docs/sync-format.md` when the format changes.
+- **RSA stays disabled** in russh until RUSTSEC-2023-0071 has a fixed version; see `docs/rsa-disabled.md`.
+- **Build dependencies:** the GTK packages under Commands must be installed for `cargo test` to compile.
+- **The documentation** is a Zensical site: `docs/`, `zensical.toml` and the home page template in `overrides/home.html`. Build it locally with `pip install --upgrade zensical` and `zensical build --strict`. New pages go into `nav` in `zensical.toml`.
+- **The release** is driven by the PR titles and the checks in `.github/release-required-checks`; see `docs/release.md`.
 
-## Granskning i det här repot
+## Review in this repo
 
-- **Grind:** `main` kräver PR, signerade commits, linjär historik, lösta granskningstrådar och CodeQL utan fel eller allvarliga larm. Inga andra kontroller krävs, men de som körs ska vara gröna. De lokala testerna i Kommandon är testgrinden.
-- **CodeRabbit:** ärver den centrala konfigurationen i `pissmyran/coderabbit`. Repots `.coderabbit.yaml` pekar ut riskområden med egna granskningsinstruktioner; läs den del som gäller filerna du ändrar innan du börjar.
-- **Sourcery och Codex:** granskar också, som GitHub-appar utan egen konfiguration här, och de granskar även dokumentation. Behandla deras trådar som CodeRabbits.
-- **Extra noggrant:** värdnyckelkontroll, synkformat och kryptering, OAuth och WebDAV, vidarebefordran och hämtade verktyg.
+- **Gate:** `main` requires a PR, signed commits, linear history, resolved review threads and CodeQL without errors or serious alerts. No other checks are required, but the ones that run must be green. The local tests under Commands are the test gate.
+- **CodeRabbit:** inherits the central configuration in `pissmyran/coderabbit`. The repo's `.coderabbit.yaml` points out risk areas with their own review instructions; read the part for the files you change before you start.
+- **Sourcery and Codex:** also review, as GitHub apps without their own configuration here, and they review documentation too. Treat their threads like CodeRabbit's.
+- **Extra care:** host key verification, sync format and encryption, OAuth and WebDAV, forwarding and fetched tools.
 
-## GitHub från sessionen
+## GitHub from a session
 
-GraphQL är avstängt, så `gh pr` och `gh issue` fungerar inte. Använd REST:
+GraphQL is disabled, so `gh pr` and `gh issue` do not work. Use REST:
 
-- Öppna PR: `gh api repos/pissmyran/bastion_linux/pulls -f base=main -f head=<gren> -f title='…' -f body='…'`
-- PR från gren: `gh api 'repos/pissmyran/bastion_linux/pulls?head=pissmyran:<gren>&state=open'`
-- Issue: `gh api repos/pissmyran/bastion_linux/issues/<n>` och `…/issues/<n>/comments`
-- Granskningstrådar: `gh api repos/pissmyran/bastion_linux/pulls/<n>/ccr/review_threads`
-- Svara i tråd: `gh api repos/pissmyran/bastion_linux/pulls/<n>/comments/<id>/replies -f body='…'`
-- Lös tråd: `gh api -X POST repos/pissmyran/bastion_linux/pulls/<n>/ccr/comments/<id>/resolve`
-- Kontroller: `gh api repos/pissmyran/bastion_linux/commits/<sha>/check-runs`
-- Auto-merge på: `gh api -X PUT repos/pissmyran/bastion_linux/pulls/<n>/ccr/auto_merge -f merge_method=squash`
-- Är PR:en redan klar att mergas (auto-merge vägras då), squash-merga direkt: `gh api -X PUT repos/pissmyran/bastion_linux/pulls/<n>/merge -f merge_method=squash`
-- Stäng PR: `gh api -X PATCH repos/pissmyran/bastion_linux/pulls/<n> -f state=closed`
-- Radera gren: GitHub raderar grenen vid merge. En stängd PR:s gren raderas med `git push origin --delete <gren>` (API-vägen är spärrad).
+- Open a PR: `gh api repos/pissmyran/bastion_linux/pulls -f base=main -f head=<branch> -f title='…' -f body='…'`
+- PR from a branch: `gh api 'repos/pissmyran/bastion_linux/pulls?head=pissmyran:<branch>&state=open'`
+- Issue: `gh api repos/pissmyran/bastion_linux/issues/<n>` and `…/issues/<n>/comments`
+- Review threads: `gh api repos/pissmyran/bastion_linux/pulls/<n>/ccr/review_threads`
+- Reply in a thread: `gh api repos/pissmyran/bastion_linux/pulls/<n>/comments/<id>/replies -f body='…'`
+- Resolve a thread: `gh api -X POST repos/pissmyran/bastion_linux/pulls/<n>/ccr/comments/<id>/resolve`
+- Checks: `gh api repos/pissmyran/bastion_linux/commits/<sha>/check-runs`
+- Enable auto-merge: `gh api -X PUT repos/pissmyran/bastion_linux/pulls/<n>/ccr/auto_merge -f merge_method=squash`
+- If the PR is already mergeable (auto-merge is then refused), squash-merge directly: `gh api -X PUT repos/pissmyran/bastion_linux/pulls/<n>/merge -f merge_method=squash`
+- Close a PR: `gh api -X PATCH repos/pissmyran/bastion_linux/pulls/<n> -f state=closed`
+- Delete a branch: GitHub deletes the branch on merge. A closed PR's branch is deleted with `git push origin --delete <branch>` (the API route is blocked).
