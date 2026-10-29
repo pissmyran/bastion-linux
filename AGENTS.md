@@ -1,22 +1,35 @@
-# AGENTS.md
+# AGENTS.md – bastion_linux
+
+Bastion for Linux: the SSH client for Linux, built with Rust, GTK 4, libadwaita, VTE and russh.
+
+Read the shared rules at the start of every session: [GOVERNANCE.md](https://raw.githubusercontent.com/pissmyran/.github/main/GOVERNANCE.md) and [BASTION.md](https://raw.githubusercontent.com/pissmyran/.github/main/BASTION.md).
 
 ## Read first
 
-1. [CLAUDE.md](CLAUDE.md): core rules, commands and review.
-2. [docs/architecture.md](docs/architecture.md): components and security boundaries.
-3. [docs/operations.md](docs/operations.md): verification before pushing.
-4. [docs/sync-format.md](docs/sync-format.md): when the host list or sync is involved.
+1. [docs/architecture.md](docs/architecture.md): components and security boundaries.
+2. [docs/operations.md](docs/operations.md): verification before pushing.
+3. [docs/sync-format.md](docs/sync-format.md): when the host list or sync is involved.
 
-## Working rules
+## Commands
 
-- Branches, pull requests and review follow the core rules in `CLAUDE.md`.
-- Read the whole review, including threads GitHub marks as `outdated`, and check that the root cause is actually fixed.
-- Change build paths and manifests together with the documentation.
-- Values that reach a shell go through `env:` and quoted variables.
-- Never put secrets or credentials in the repo or in public documentation.
-- Everything is written in English.
+Install build dependencies (Debian and Ubuntu); `openssh-client` is needed because the key import tests run `ssh-keygen`:
 
-## Agent skills
+```bash
+sudo apt install --no-install-recommends build-essential pkg-config libgtk-4-dev libadwaita-1-dev libvte-2.91-gtk4-dev libgtksourceview-5-dev openssh-client
+```
 
-- **Issues:** read `docs/agents/issue-tracker.md` before reading, creating or publishing issues.
-- **Domain:** follow `docs/agents/domain.md`.
+Test and run:
+
+```bash
+cd LinuxApp && cargo test --workspace
+cd LinuxApp && cargo run
+```
+
+The RPM package is built with `LinuxApp/packaging/build-rpm.sh`.
+
+## Rules
+
+- **The GTK packages above must be installed** for `cargo test` to compile.
+- **The fixtures** in `LinuxApp/tests/fixtures/` are copies of the sync format owned by `bastion_apple`.
+- **RSA is disabled** in russh; `docs/rsa-disabled.md` gives the reason and the condition for enabling it.
+- **Extra care:** host key verification, sync format and encryption, OAuth and WebDAV, forwarding and fetched tools.
