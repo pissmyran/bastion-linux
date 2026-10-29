@@ -5,3 +5,7 @@
 # Zensical generated site
 site/
 LinuxApp/target/
+.token-optimizer/decisions.log
+.token-optimizer/state/
+.token-optimizer/probe/
+!.token-optimizer/optimize.sh
