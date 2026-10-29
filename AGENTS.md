@@ -31,5 +31,5 @@ The RPM package is built with `LinuxApp/packaging/build-rpm.sh`.
 
 - **The GTK packages above must be installed** for `cargo test` to compile.
 - **The fixtures** in `LinuxApp/tests/fixtures/` are copies of the sync format owned by `bastion_apple`.
-- **RSA stays disabled** in russh until RUSTSEC-2023-0071 has a fixed version; see `docs/rsa-disabled.md`.
+- **RSA is disabled** in russh; `docs/rsa-disabled.md` gives the reason and the condition for enabling it.
 - **Extra care:** host key verification, sync format and encryption, OAuth and WebDAV, forwarding and fetched tools.
