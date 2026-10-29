@@ -50,7 +50,7 @@ cd LinuxApp && cargo run
 
 ## Rules for this repo
 
-- **Language:** everything in this repo is English: code, comments, docstrings, documentation, PR titles and bodies, commit messages, review replies and labels. Only the core rules block above stays in Swedish. Older code still has Swedish comments and UI text; translate them when you touch the file.
+- **Language:** everything in this repo is English: code, comments, docstrings, documentation, PR titles and bodies, commit messages, review replies and labels. Only the core rules block above stays in Swedish. Older code still has Swedish comments and UI text; write every new or changed comment and string in English.
 - **The sync format is owned by Bastion for Apple.** The fixtures in `LinuxApp/tests/fixtures/` are copies; follow `docs/sync-format.md` when the format changes.
 - **RSA stays disabled** in russh until RUSTSEC-2023-0071 has a fixed version; see `docs/rsa-disabled.md`.
 - **Build dependencies:** the GTK packages under Commands must be installed for `cargo test` to compile.
