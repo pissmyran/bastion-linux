@@ -1,42 +1,42 @@
-# Bastion för Linux
+# Bastion for Linux
 
-**Dokumentation:** [pissmyran.github.io/bastion_linux](https://pissmyran.github.io/bastion_linux/)
+**Documentation:** [pissmyran.github.io/bastion_linux](https://pissmyran.github.io/bastion_linux/)
 
-Bastion är en SSH-klient. Det här repot innehåller versionen för Linux med GTK 4, byggd med Rust, GTK 4, libadwaita, VTE och russh. Övriga plattformar har egna repon: [Bastion för Apple](https://github.com/pissmyran/bastion_apple), [Bastion för Windows](https://github.com/pissmyran/bastion_windows), [Bastion för Android](https://github.com/pissmyran/bastion_android).
+Bastion is an SSH client. This repo holds the version for Linux with GTK 4, built with Rust, GTK 4, libadwaita, VTE and russh. The other platforms have their own repos: [Bastion for Apple](https://github.com/pissmyran/bastion_apple), [Bastion for Windows](https://github.com/pissmyran/bastion_windows), [Bastion for Android](https://github.com/pissmyran/bastion_android). The [Bastion hub](https://github.com/pissmyran/bastion) ties them together.
 
-## Innehåll
+## Contents
 
-| Plats | Innehåll |
+| Path | Contents |
 | --- | --- |
-| `LinuxApp/src/` | Appen: sessioner, terminal, SFTP, synk, vidarebefordran och verktyg |
-| `LinuxApp/integrations/` | Integrationer, till exempel Docker |
-| `LinuxApp/tests/fixtures/` | Kopior av synkformatets fixturer från Bastion för Apple |
-| `LinuxApp/packaging/` | Skrivbordsfil och RPM-bygge |
+| `LinuxApp/src/` | The app: sessions, terminal, SFTP, sync, forwarding and tools |
+| `LinuxApp/integrations/` | Integrations, for example Docker |
+| `LinuxApp/tests/fixtures/` | Copies of the sync-format fixtures from Bastion for Apple |
+| `LinuxApp/packaging/` | Desktop file and RPM build |
 
-## Kom igång
+## Getting started
 
-Installera byggberoenden (Debian och Ubuntu):
+Install build dependencies (Debian and Ubuntu):
 
 ```bash
 sudo apt install --no-install-recommends build-essential pkg-config libgtk-4-dev libadwaita-1-dev libvte-2.91-gtk4-dev libgtksourceview-5-dev openssh-client
 ```
 
-Testa:
+Test:
 
 ```bash
 cd LinuxApp && cargo test --workspace
 ```
 
-Kör appen:
+Run the app:
 
 ```bash
 cd LinuxApp && cargo run
 ```
 
-`openssh-client` behövs för att testerna av nyckelimport kör `ssh-keygen`. RPM-paketet byggs med `LinuxApp/packaging/build-rpm.sh`.
+`openssh-client` is needed because the key import tests run `ssh-keygen`. The RPM package is built with `LinuxApp/packaging/build-rpm.sh`.
 
-## Mer
+## More
 
-- [Dokumentationen](https://pissmyran.github.io/bastion_linux/) – kom igång, arkitektur, drift, synkformat och release
-- [SECURITY.md](SECURITY.md) – rapportera en sårbarhet
-- [CONTRIBUTING.md](CONTRIBUTING.md) – bidra
+- [The documentation](https://pissmyran.github.io/bastion_linux/): getting started, architecture, operations, sync format and releases
+- [SECURITY.md](SECURITY.md): report a vulnerability
+- [CONTRIBUTING.md](CONTRIBUTING.md): contribute

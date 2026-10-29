@@ -27,12 +27,12 @@ members = ["integrations"]
 bastion-integrations = { path = "integrations" }
 gtk = { version = "0.11.5", package = "gtk4", features = ["v4_12"] }
 adw = { version = "0.9.2", package = "libadwaita", features = ["v1_5"] }
-# RSA-stödet är AVSTÄNGT, inte bara oanvänt: `rsa`-crate:n dras in av
-# russh:s default-feature `rsa` och har RUSTSEC-2023-0071 (Marvin-attacken)
-# utan rättad version. `default-features = false` tar bort den ur
-# beroendeträdet helt. `flate2` och `aws-lc-rs` är de övriga två
-# default-featuresen och måste därför återaktiveras uttryckligen.
-# Slå på `rsa` igen när advisoryn har en fix — se docs/rsa-inaktiverat.md.
+# RSA support is DISABLED, not just unused: the `rsa` crate is pulled in by
+# russh's default feature `rsa` and has RUSTSEC-2023-0071 (the Marvin attack)
+# with no fixed version. `default-features = false` removes it from the
+# dependency tree entirely. `flate2` and `aws-lc-rs` are the other two
+# default features and must therefore be re-enabled explicitly.
+# Turn `rsa` back on once the advisory has a fix; see docs/rsa-disabled.md.
 russh = { version = "0.65.0", default-features = false, features = ["flate2", "aws-lc-rs"] }
 tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "fs"] }
 serde = { version = "1.0.229", features = ["derive"] }
