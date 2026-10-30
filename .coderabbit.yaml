@@ -1,9 +1,52 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 
+# Shared base: pissmyran/coderabbit; keep shared settings there.
 inheritance: true
 
 reviews:
   path_instructions:
+    # GTK and worker execution paths.
+    - path: "LinuxApp/src/**/*.rs"
+      instructions: |
+        When UI or background work changes, trace the caller and execution
+        context. GTK, libadwaita and VTE access belongs on the GTK main thread;
+        worker results return through channels to the GLib main context.
+        Check that blocking filesystem, process, network or expensive crypto
+        work does not stall the UI or a Tokio executor. GLib local futures
+        still run on the UI thread; async alone does not move work off it.
+        For changed worker, task or channel lifetimes, check cancellation,
+        dropped receivers and error paths for leaked sessions, listeners,
+        child processes or tasks, and stale results applied to closed UI.
+        Use AGENTS.md and docs/operations.md for local verification requirements.
+        Workspace tests run locally, not in GitHub CI; missing build evidence
+        is a verification limitation, not by itself a confirmed code defect.
+
+    # Workspace dependencies and the RSA exclusion.
+    - path: "LinuxApp/{Cargo.toml,Cargo.lock,integrations/Cargo.toml}"
+      instructions: |
+        Check dependency changes in the manifest that owns the dependency:
+        the app and bastion-integrations are separate workspace packages.
+        Check manifest and shared lockfile consistency, including resolved
+        versions and feature changes. Check compatibility with each package's
+        declared rust-version; do not infer support from edition alone or
+        claim a toolchain was tested without evidence.
+        Preserve russh's disabled default features and intentional non-RSA
+        features. Check transitive dependencies and feature unification for
+        reintroduction of rsa, not just direct manifest entries.
+        Per docs/rsa-disabled.md, RSA may return only with a version fixing
+        RUSTSEC-2023-0071 and regression tests for RSA paths, including key
+        files, certificates and ssh-agent authentication.
+
+    # Separate command-building and parsing package.
+    - path: "LinuxApp/integrations/**"
+      instructions: |
+        Preserve bastion-integrations as a separate workspace package for
+        command construction, input validation and output parsing. Its current
+        dependency is serde_json; the app owns SSH execution and GTK UI.
+        Check that changes do not introduce GTK or SSH runtime coupling or
+        move execution into this package without an explicit architectural
+        change. Trace app callers when command or parser contracts change.
+
     # SSH trust and authentication.
     - path: "LinuxApp/src/{known_hosts,ssh}.rs"
       instructions: |
@@ -20,16 +63,20 @@ reviews:
       instructions: |
         When connect, keepalive or close changes, trace concurrent
         connect, channel-open and close sequences and auth failures.
-        Check that promises and continuations complete at most
-        once and that errors or close never leave calls pending.
-        Check that late connections and channels are closed
-        if the caller has already cancelled.
-        An old keepalive monitor must not close a new session.
+        Trace Result propagation, async-channel sends and receives, and
+        Tokio timeouts/select branches so auth failures, dropped receivers
+        and closed channels do not leave callers waiting indefinitely.
+        Check worker/runtime and SSH handle lifetimes when a caller cancels
+        or closes input, including a connection that completes after close.
+        Preserve russh keepalive configuration and connection-loss reporting;
+        late events from an old session must not affect its replacement.
         Use the session tests as regression evidence.
 
     # Persistent format and merging.
     - path: "{LinuxApp/src/{host,snippet,sync,fsutil}.rs,LinuxApp/tests/fixtures/{host-wire-format,sync-state-wire-format}.json}"
       instructions: |
+        The format is owned by bastion_apple; follow docs/sync-format.md.
+        Fixtures are copies of the Apple fixtures, not a Linux-only contract.
         When serialization or storage changes, compare field names,
         UUID encoding, the 2001-01-01 date epoch and the tombstone format
         with existing readers and the wire-format fixtures.
